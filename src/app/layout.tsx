@@ -24,6 +24,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pushkar.is-a.dev"),
   title: "Pushkar Balyan | Next-Gen Animated Portfolio — Full Stack Developer & AI Enthusiast",
   description:
     "Explore the futuristic, cinematic 3D portfolio of Pushkar Balyan. Full Stack Developer & AI Enthusiast specializing in Next.js, Python, Autonomous AI Agents, and Real-Time 3D Graphics.",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://pushkarbalyan.dev",
+    url: "https://pushkar.is-a.dev",
     title: "Pushkar Balyan | Next-Gen Animated Portfolio",
     description:
       "Turning Ideas Into Extraordinary Digital Experiences. Full Stack Software Engineer & AI Specialist.",
