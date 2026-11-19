@@ -32,11 +32,7 @@ export function ElectricCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // Only enable on desktop pointer devices
     if (typeof window === "undefined") return;
-    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
-      return;
-    }
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -51,6 +47,7 @@ export function ElectricCursor() {
     let targetX = mouseX;
     let targetY = mouseY;
     let hasMoved = false;
+    let lastActiveTime = Date.now();
 
     const trail: Point[] = [];
     const sparks: Spark[] = [];
@@ -70,6 +67,7 @@ export function ElectricCursor() {
     // Mouse Tracking
     const onMouseMove = (e: MouseEvent) => {
       hasMoved = true;
+      lastActiveTime = Date.now();
       targetX = e.clientX;
       targetY = e.clientY;
 
@@ -108,6 +106,7 @@ export function ElectricCursor() {
 
     const onMouseDown = () => {
       isMouseDown = true;
+      lastActiveTime = Date.now();
       // High-voltage burst on click
       shockwaves.push({
         x: targetX,
@@ -137,11 +136,92 @@ export function ElectricCursor() {
 
     const onMouseUp = () => {
       isMouseDown = false;
+      lastActiveTime = Date.now();
+    };
+
+    // Mobile Phone Touch Handling
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 0) {
+        hasMoved = true;
+        isMouseDown = true;
+        lastActiveTime = Date.now();
+        const touch = e.touches[0];
+        targetX = touch.clientX;
+        targetY = touch.clientY;
+        mouseX = touch.clientX;
+        mouseY = touch.clientY;
+
+        // Instant high-voltage shockwave under finger
+        shockwaves.push({
+          x: targetX,
+          y: targetY,
+          radius: 8,
+          maxRadius: 80,
+          alpha: 1,
+          color: "#00f0ff",
+        });
+
+        // 35 plasma sparks burst on mobile tap
+        for (let i = 0; i < 35; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const spd = Math.random() * 11 + 4;
+          sparks.push({
+            x: targetX,
+            y: targetY,
+            vx: Math.cos(angle) * spd,
+            vy: Math.sin(angle) * spd,
+            life: 1,
+            maxLife: Math.random() * 32 + 20,
+            color: Math.random() > 0.5 ? "#00f0ff" : "#c084fc",
+            size: Math.random() * 4 + 1.8,
+          });
+        }
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 0) {
+        hasMoved = true;
+        lastActiveTime = Date.now();
+        const touch = e.touches[0];
+        const dx = touch.clientX - targetX;
+        const dy = touch.clientY - targetY;
+        targetX = touch.clientX;
+        targetY = touch.clientY;
+
+        // Spawn rapid sparks on drag
+        const speed = Math.hypot(dx, dy);
+        if (speed > 2) {
+          const count = Math.min(Math.floor(speed / 3), 8);
+          for (let i = 0; i < count; i++) {
+            sparks.push({
+              x: targetX,
+              y: targetY,
+              vx: (Math.random() - 0.5) * 8 + dx * 0.25,
+              vy: (Math.random() - 0.5) * 8 + dy * 0.25,
+              life: 1,
+              maxLife: Math.random() * 24 + 16,
+              color: Math.random() > 0.4 ? "#00f0ff" : "#ec4899",
+              size: Math.random() * 3.2 + 1.5,
+            });
+          }
+        }
+      }
+    };
+
+    const onTouchEnd = () => {
+      isMouseDown = false;
+      lastActiveTime = Date.now();
     };
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mouseup", onMouseUp);
+
+    // Register mobile touch listeners
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
 
     // High-Voltage Fractal Branching Lightning Generator
     const drawBolt = (
@@ -273,8 +353,11 @@ export function ElectricCursor() {
         }
       }
 
-      // 2. Idle Tesla-Coil Crackling around cursor reticle (6-8 violent arcs at all times!)
-      if (hasMoved) {
+      // 2. Idle Tesla-Coil Crackling around cursor reticle
+      const timeSinceActive = Date.now() - lastActiveTime;
+      const isRecentlyActive = timeSinceActive < 2400;
+
+      if (hasMoved && isRecentlyActive) {
         const crackleCount = isHoveringInteractive ? 8 : 6;
         for (let c = 0; c < crackleCount; c++) {
           const angle = Math.random() * Math.PI * 2;
@@ -377,7 +460,7 @@ export function ElectricCursor() {
       }
 
       // 6. Blinding Electric Cursor Core Reticle
-      if (hasMoved && mouseX > 0 && mouseY > 0) {
+      if (hasMoved && isRecentlyActive && mouseX > 0 && mouseY > 0) {
         ctx.save();
 
         const auraRadius = isHoveringInteractive ? 34 : 24;
@@ -434,6 +517,9 @@ export function ElectricCursor() {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
     };
   }, []);
 
