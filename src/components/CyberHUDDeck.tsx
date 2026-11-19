@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { sound } from "@/utils/sound";
@@ -12,8 +12,6 @@ import { TerminalPrompt } from "@/components/TerminalPrompt";
 import { CyberProjectSlider } from "@/components/CyberProjectSlider";
 import { CyberTechGrid } from "@/components/CyberTechGrid";
 import { InfiniteSpiral } from "@/components/effects/InfiniteSpiral";
-import { FloatingHUD } from "@/components/effects/FloatingHUD";
-import { ParallaxLayer } from "@/components/effects/ParallaxLayer";
 import { ResumeModal } from "@/components/ResumeModal";
 import { ProjectModal, ProjectData } from "@/components/ProjectModal";
 import {
@@ -123,26 +121,11 @@ const SLIDE_PROJECT_DETAILS: Record<string, ProjectData> = {
   },
 };
 
-const HERO_ROLES = [
-  "Full Stack Developer | AI Engineer | Creative Technologist",
-  "Autonomous Multi-Agent Systems Architect",
-  "3D WebGL & Real-Time Graphics Specialist",
-  "Production Cloud & Deep Learning Engineer",
-];
-
 export function CyberHUDDeck() {
   const [activeTab, setActiveTab] = useState("home");
   const [resumeOpen, setResumeOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0 });
-  const [roleIndex, setRoleIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRoleIndex((prev) => (prev + 1) % HERO_ROLES.length);
-    }, 3400);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -284,73 +267,24 @@ export function CyberHUDDeck() {
                 {/* Anime Hero & Cyber City Layer with 3D Mouse Parallax */}
                 <motion.div
                   animate={{
-                    x: heroMouse.x * 24,
-                    y: heroMouse.y * 14,
+                    x: heroMouse.x * 14,
+                    y: heroMouse.y * 8,
                   }}
                   transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                  className="absolute right-0 top-0 bottom-0 w-[55%] max-w-[580px] overflow-hidden pointer-events-none hidden md:block z-10"
+                  className="absolute right-0 top-0 bottom-0 w-[55%] max-w-[620px] overflow-hidden pointer-events-none hidden md:block z-10"
                 >
                   <Image
-                    src="/anime-character.png"
+                    src="/cyber-hero-backdrop.png"
                     alt="Pushkar Balyan Cyber Avatar"
-                    width={580}
-                    height={430}
+                    width={525}
+                    height={198}
                     priority
-                    className="w-full h-full object-cover object-left-top opacity-90 filter drop-shadow-[0_0_30px_rgba(139,92,246,0.4)]"
+                    className="w-full h-full object-cover object-right"
                     style={{
-                      maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.85) 28%, black 100%)",
-                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.85) 28%, black 100%)",
+                      maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 12%, black 28%)",
+                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 12%, black 28%)",
                     }}
                   />
-                </motion.div>
-
-                {/* Top-Right Quote Box with 3D Mouse Parallax */}
-                <motion.div
-                  animate={{
-                    x: heroMouse.x * 18,
-                    y: heroMouse.y * -14,
-                  }}
-                  transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                  className="absolute top-5 right-5 hidden xl:flex flex-col items-end z-20"
-                >
-                  <ParallaxLayer speed={0.2}>
-                    <div className="px-3 py-1.5 rounded-xl bg-black/70 border border-purple-500/40 backdrop-blur-md text-right shadow-[0_0_15px_rgba(139,92,246,0.25)]">
-                      <div className="text-[11px] font-mono text-purple-300 font-semibold">
-                        &ldquo; Dream • Code • Innovate &rdquo;
-                      </div>
-                      <div className="text-[9px] font-mono text-gray-400">
-                        Building the Future
-                      </div>
-                    </div>
-                  </ParallaxLayer>
-                </motion.div>
-
-                {/* Floating Glowing Code Bracket Symbol </> with Inverted 3D Parallax */}
-                <motion.div
-                  animate={{
-                    x: heroMouse.x * -36,
-                    y: heroMouse.y * -22,
-                  }}
-                  transition={{ type: "spring", stiffness: 240, damping: 24 }}
-                  className="absolute left-[51%] top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center pointer-events-none z-10"
-                >
-                  <ParallaxLayer speed={0.35}>
-                    <span className="text-6xl font-mono font-black text-cyan-300 filter drop-shadow-[0_0_30px_#00f0ff] opacity-90 animate-pulse">
-                      &lt;/&gt;
-                    </span>
-                  </ParallaxLayer>
-                </motion.div>
-
-                {/* Floating Holographic Telemetry HUD Panel with Parallax */}
-                <motion.div
-                  animate={{
-                    x: heroMouse.x * -20,
-                    y: heroMouse.y * 18,
-                  }}
-                  transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                  className="absolute bottom-6 right-6 hidden lg:block z-20"
-                >
-                  <FloatingHUD title="NEXUS_SYNC" variant="telemetry" className="w-52" />
                 </motion.div>
 
                 {/* Left Hero Content */}
@@ -364,51 +298,38 @@ export function CyberHUDDeck() {
                   {/* Main Title Pushkar Balyan */}
                   <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-white">
                     Pushkar{" "}
-                    <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent filter drop-shadow-[0_0_30px_rgba(217,70,239,0.6)]">
+                    <span className="bg-gradient-to-r from-[#d946ef] via-[#a855f7] to-[#00f0ff] bg-clip-text text-transparent filter drop-shadow-[0_0_28px_rgba(168,85,247,0.7)]">
                       Balyan
                     </span>
                   </h2>
 
-                  {/* Dynamic Role / Title Animation */}
-                  <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg font-bold text-gray-100 min-h-[28px]">
-                    <span className="text-cyan-400 font-mono text-xs uppercase tracking-widest bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded">
-                      ROLE
-                    </span>
-                    <span className="text-purple-300 transition-all duration-300">
-                      {HERO_ROLES[roleIndex]}
-                    </span>
-                    <span className="w-2 h-4 bg-cyan-400 animate-pulse shrink-0" />
+                  {/* Subtitle - Exact Match to Image 2 */}
+                  <div className="text-lg sm:text-2xl font-bold tracking-tight text-white flex items-center gap-1.5">
+                    <span>Full Stack Developer &amp; AI Enthusiast</span>
+                    <span className="text-cyan-400 font-mono font-light animate-pulse ml-0.5">|</span>
                   </div>
 
                   {/* Tagline Description */}
-                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal max-w-lg">
-                    Architecting intelligent systems, autonomous multi-agent workflows, and immersive 3D web experiences with cutting-edge engineering precision.
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal max-w-md">
+                    Building next-gen digital experiences with AI, automation and cutting-edge technologies.
                   </p>
 
-                  {/* Action CTA Buttons (Explore My Work, Download Resume, Contact Me) */}
+                  {/* Action CTA Buttons (2 Buttons: Explore My Work, Download Resume) */}
                   <div className="flex flex-wrap items-center gap-3 pt-2">
                     <button
                       onClick={() => handleNav("projects")}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 via-indigo-600 to-purple-600 text-white font-bold text-xs sm:text-sm shadow-[0_0_30px_rgba(0,240,255,0.7)] border border-cyan-200 hover:shadow-[0_0_40px_rgba(139,92,246,0.9)] transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-900/60 via-purple-600/40 to-cyan-500/30 hover:from-purple-600 hover:to-cyan-400 text-white font-medium text-xs sm:text-sm shadow-[0_0_25px_rgba(0,240,255,0.4)] border border-cyan-400/80 hover:shadow-[0_0_35px_rgba(0,240,255,0.8)] transition-all cursor-pointer"
                     >
                       <span>Explore My Work</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 text-cyan-300" />
                     </button>
 
                     <button
                       onClick={() => setResumeOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/20 hover:border-cyan-400 text-xs sm:text-sm font-medium text-gray-200 backdrop-blur-md transition-all hover:bg-white/[0.08] cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/50 border border-white/20 hover:border-cyan-400/70 text-xs sm:text-sm font-medium text-gray-200 backdrop-blur-md transition-all hover:bg-white/[0.08] cursor-pointer"
                     >
                       <span>Download Resume</span>
-                      <Download className="w-4 h-4 text-cyan-400" />
-                    </button>
-
-                    <button
-                      onClick={() => handleNav("contact")}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30 hover:border-purple-400 text-xs sm:text-sm font-medium text-purple-300 backdrop-blur-md transition-all hover:bg-purple-500/20 cursor-pointer"
-                    >
-                      <span>Contact Me</span>
-                      <Mail className="w-3.5 h-3.5" />
+                      <Download className="w-4 h-4 text-gray-400" />
                     </button>
                   </div>
                 </div>

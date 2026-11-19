@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { sound } from "@/utils/sound";
@@ -10,10 +11,9 @@ interface ProjectSlide {
   title: string;
   subtitle: string;
   tag: string;
-  iconSymbol: string;
-  gradient: string;
+  image: string;
   accent: string;
-  graphicType: "omega" | "media" | "eco";
+  tagColor: string;
 }
 
 const SLIDES: ProjectSlide[] = [
@@ -22,30 +22,27 @@ const SLIDES: ProjectSlide[] = [
     title: "OMEGA NEXUS AI OS",
     subtitle: "Autonomous Multi-Agent OS",
     tag: "AI / Platform",
-    iconSymbol: "Ω",
-    gradient: "from-purple-950/80 via-black to-indigo-950/80",
+    image: "/project-omega.png",
     accent: "border-purple-500/50 text-purple-300",
-    graphicType: "omega",
+    tagColor: "bg-purple-900/60 text-purple-300 border-purple-400/40",
   },
   {
     id: "media",
     title: "MediaSphere AI",
     subtitle: "Media Planning Platform",
     tag: "SaaS",
-    iconSymbol: "⬡",
-    gradient: "from-cyan-950/80 via-black to-blue-950/80",
+    image: "/project-media.png",
     accent: "border-cyan-500/50 text-cyan-300",
-    graphicType: "media",
+    tagColor: "bg-cyan-900/60 text-cyan-300 border-cyan-400/40",
   },
   {
     id: "eco",
     title: "EcoGrid AI",
     subtitle: "Smart Green Future",
     tag: "Sustainability",
-    iconSymbol: "⚡",
-    gradient: "from-emerald-950/80 via-black to-teal-950/80",
+    image: "/project-eco.png",
     accent: "border-emerald-500/50 text-emerald-300",
-    graphicType: "eco",
+    tagColor: "bg-emerald-900/60 text-emerald-300 border-emerald-400/40",
   },
 ];
 
@@ -101,7 +98,7 @@ function StackingProjectCard({
       style={{
         transformStyle: "preserve-3d",
       }}
-      className={`rounded-2xl bg-gradient-to-b ${slide.gradient} border p-3 cursor-pointer transition-all duration-300 flex flex-col justify-between aspect-[4/5] sm:aspect-[3/4] relative overflow-hidden group select-none ${
+      className={`rounded-2xl bg-[#090624]/95 border p-2.5 cursor-pointer transition-all duration-300 flex flex-col justify-between aspect-[4/5] sm:aspect-[3/4] relative overflow-hidden group select-none ${
         isSelected
           ? "border-cyan-400 shadow-[0_15px_35px_-5px_rgba(0,0,0,0.8),0_0_25px_rgba(6,182,212,0.4)]"
           : "border-white/10 hover:border-cyan-400/50 hover:shadow-[0_15px_35px_-5px_rgba(0,0,0,0.8),0_0_20px_rgba(139,92,246,0.3)]"
@@ -120,51 +117,19 @@ function StackingProjectCard({
       {/* Graphic Mockup Thumbnail Area with 3D Depth */}
       <div
         style={{
-          transform: isHovered ? "translateZ(30px)" : "translateZ(0px)",
+          transform: isHovered ? "translateZ(25px)" : "translateZ(0px)",
           transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
-        className="w-full aspect-[4/3] rounded-xl bg-black/60 border border-white/10 relative overflow-hidden flex items-center justify-center"
+        className="w-full aspect-[4/3] rounded-xl bg-black/80 border border-white/10 relative overflow-hidden flex items-center justify-center"
       >
-        <div className="absolute inset-0 cyber-grid-bg opacity-40" />
-
-        {slide.graphicType === "omega" && (
-          <div className="relative z-10 flex flex-col items-center">
-            <span className="text-4xl sm:text-5xl font-mono font-black text-purple-400 filter drop-shadow-[0_0_15px_#a855f7] group-hover:scale-110 transition-transform">
-              Ω
-            </span>
-            <span className="text-[9px] font-mono text-purple-300/80 mt-1">
-              MULTI-AGENT CORE
-            </span>
-          </div>
-        )}
-
-        {slide.graphicType === "media" && (
-          <div className="relative z-10 grid grid-cols-2 gap-1.5 p-2 w-full">
-            <div className="aspect-video rounded bg-cyan-900/40 border border-cyan-400/40 flex items-center justify-center text-[8px] font-mono text-cyan-300">
-              AI_STREAM
-            </div>
-            <div className="aspect-video rounded bg-purple-900/40 border border-purple-400/40 flex items-center justify-center text-[8px] font-mono text-purple-300">
-              STUDIO
-            </div>
-            <div className="aspect-video rounded bg-fuchsia-900/40 border border-fuchsia-400/40 flex items-center justify-center text-[8px] font-mono text-fuchsia-300">
-              EDIT
-            </div>
-            <div className="aspect-video rounded bg-blue-900/40 border border-blue-400/40 flex items-center justify-center text-[8px] font-mono text-blue-300">
-              RENDER
-            </div>
-          </div>
-        )}
-
-        {slide.graphicType === "eco" && (
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-10 h-10 rounded-full border border-emerald-400/60 flex items-center justify-center bg-emerald-950/60 shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-              <span className="text-xl text-emerald-300">⚡</span>
-            </div>
-            <span className="text-[9px] font-mono text-emerald-300/90 mt-1">
-              ECO_SMART_GRID
-            </span>
-          </div>
-        )}
+        <Image
+          src={slide.image}
+          alt={slide.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* Title & Subtitle with 3D Depth */}
@@ -184,7 +149,7 @@ function StackingProjectCard({
 
         {/* Badge Tag */}
         <div className="mt-2 flex items-center justify-between">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-cyan-300">
+          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${slide.tagColor}`}>
             {slide.tag}
           </span>
           <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-cyan-300 transition-colors" />
