@@ -126,6 +126,9 @@ function StackingProjectCard({
           src={slide.image}
           alt={slide.title}
           fill
+          unoptimized
+          quality={100}
+          priority
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />

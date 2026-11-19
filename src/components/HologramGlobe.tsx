@@ -22,6 +22,8 @@ export function HologramGlobe() {
         width={96}
         height={56}
         priority
+        unoptimized
+        quality={100}
         className="object-contain filter drop-shadow-[0_0_16px_rgba(0,240,255,0.65)] hover:scale-105 transition-transform"
       />
       <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-xl pointer-events-none" />

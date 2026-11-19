@@ -23,6 +23,8 @@ export function HologramCube() {
         width={160}
         height={150}
         priority
+        unoptimized
+        quality={100}
         className="object-contain filter drop-shadow-[0_0_24px_rgba(0,240,255,0.6)] hover:scale-105 transition-transform duration-300"
       />
       {/* Dynamic ambient energy glow */}

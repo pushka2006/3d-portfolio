@@ -259,30 +259,32 @@ export function CyberHUDDeck() {
               <div
                 onMouseMove={handleHeroMouseMove}
                 onMouseLeave={() => setHeroMouse({ x: 0, y: 0 })}
-                className="relative rounded-2xl bg-gradient-to-br from-[#0c0828]/80 via-[#07041d]/75 to-[#040212]/80 backdrop-blur-md border border-cyan-500/35 p-6 sm:p-8 overflow-hidden min-h-[430px] flex flex-col justify-between shadow-[0_0_40px_rgba(6,182,212,0.15)]"
+                className="relative rounded-2xl bg-gradient-to-br from-[#0c0828]/80 via-[#07041d]/75 to-[#040212]/80 backdrop-blur-md border border-cyan-500/35 p-6 sm:p-8 overflow-hidden min-h-[350px] md:min-h-[370px] flex flex-col justify-between shadow-[0_0_40px_rgba(6,182,212,0.15)]"
               >
-                {/* Infinite Spiral Tunnel Effect (Mesmerizing Depth Behind Character) */}
-                <InfiniteSpiral className="opacity-80" />
+                {/* Subtle Infinite Spiral Tunnel Effect (Ambient Depth) */}
+                <InfiniteSpiral className="opacity-20 pointer-events-none" />
 
-                {/* Anime Hero & Cyber City Layer with 3D Mouse Parallax */}
+                {/* Anime Hero & Cyber City Layer with 3D Mouse Parallax - Super Crisp 3x Resolution */}
                 <motion.div
                   animate={{
-                    x: heroMouse.x * 14,
-                    y: heroMouse.y * 8,
+                    x: heroMouse.x * 12,
+                    y: heroMouse.y * 6,
                   }}
                   transition={{ type: "spring", stiffness: 220, damping: 28 }}
-                  className="absolute right-0 top-0 bottom-0 w-[55%] max-w-[620px] overflow-hidden pointer-events-none hidden md:block z-10"
+                  className="absolute right-0 top-0 bottom-0 w-[64%] lg:w-[68%] max-w-[850px] overflow-hidden pointer-events-none hidden md:block z-10"
                 >
                   <Image
                     src="/cyber-hero-backdrop.png"
                     alt="Pushkar Balyan Cyber Avatar"
-                    width={525}
-                    height={198}
+                    width={1695}
+                    height={600}
                     priority
-                    className="w-full h-full object-cover object-right"
+                    unoptimized
+                    quality={100}
+                    className="w-full h-full object-contain object-right filter drop-shadow-[0_0_20px_rgba(139,92,246,0.35)]"
                     style={{
-                      maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 12%, black 28%)",
-                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 12%, black 28%)",
+                      maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 12%, black 28%)",
+                      WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 12%, black 28%)",
                     }}
                   />
                 </motion.div>
@@ -296,21 +298,21 @@ export function CyberHUDDeck() {
                   </div>
 
                   {/* Main Title Pushkar Balyan */}
-                  <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-none text-white">
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl font-black font-sans tracking-tight leading-none text-white">
                     Pushkar{" "}
                     <span className="bg-gradient-to-r from-[#d946ef] via-[#a855f7] to-[#00f0ff] bg-clip-text text-transparent filter drop-shadow-[0_0_28px_rgba(168,85,247,0.7)]">
                       Balyan
                     </span>
                   </h2>
 
-                  {/* Subtitle - Exact Match to Image 2 */}
-                  <div className="text-lg sm:text-2xl font-bold tracking-tight text-white flex items-center gap-1.5">
+                  {/* Subtitle - Exact Match to Reference Image */}
+                  <div className="text-lg sm:text-2xl font-bold font-sans tracking-tight text-white flex items-center gap-1.5">
                     <span>Full Stack Developer &amp; AI Enthusiast</span>
                     <span className="text-cyan-400 font-mono font-light animate-pulse ml-0.5">|</span>
                   </div>
 
                   {/* Tagline Description */}
-                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal max-w-md">
+                  <p className="text-xs sm:text-sm text-gray-300 font-sans leading-relaxed font-normal max-w-md">
                     Building next-gen digital experiences with AI, automation and cutting-edge technologies.
                   </p>
 
@@ -318,7 +320,7 @@ export function CyberHUDDeck() {
                   <div className="flex flex-wrap items-center gap-3 pt-2">
                     <button
                       onClick={() => handleNav("projects")}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-900/60 via-purple-600/40 to-cyan-500/30 hover:from-purple-600 hover:to-cyan-400 text-white font-medium text-xs sm:text-sm shadow-[0_0_25px_rgba(0,240,255,0.4)] border border-cyan-400/80 hover:shadow-[0_0_35px_rgba(0,240,255,0.8)] transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-purple-900/60 via-purple-600/40 to-cyan-500/30 hover:from-purple-600 hover:to-cyan-400 text-white font-sans font-medium text-xs sm:text-sm shadow-[0_0_25px_rgba(0,240,255,0.4)] border border-cyan-400/80 hover:shadow-[0_0_35px_rgba(0,240,255,0.8)] transition-all cursor-pointer"
                     >
                       <span>Explore My Work</span>
                       <ArrowRight className="w-4 h-4 text-cyan-300" />
@@ -326,7 +328,7 @@ export function CyberHUDDeck() {
 
                     <button
                       onClick={() => setResumeOpen(true)}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/50 border border-white/20 hover:border-cyan-400/70 text-xs sm:text-sm font-medium text-gray-200 backdrop-blur-md transition-all hover:bg-white/[0.08] cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/50 border border-white/20 hover:border-cyan-400/70 text-xs sm:text-sm font-sans font-medium text-gray-200 backdrop-blur-md transition-all hover:bg-white/[0.08] cursor-pointer"
                     >
                       <span>Download Resume</span>
                       <Download className="w-4 h-4 text-gray-400" />
