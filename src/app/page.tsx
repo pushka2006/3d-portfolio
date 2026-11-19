@@ -1,6 +1,7 @@
 "use client";
 
 import SmoothScroll from "@/components/SmoothScroll";
+import Navbar from "@/components/Navbar";
 import { ElectricCursor } from "@/components/effects/ElectricCursor";
 import { DriftWall } from "@/components/effects/DriftWall";
 import CosmicBackground from "@/components/CosmicBackground";
@@ -24,6 +25,9 @@ export default function Home() {
         {/* Scroll Progress Bar & HUD */}
         <ScrollProgress />
 
+        {/* Sticky Command Glass Navigation Bar */}
+        <Navbar />
+
         {/* 10/10 FX Engine Live Status Readout */}
         <EffectsStatusHUD />
 
@@ -34,7 +38,7 @@ export default function Home() {
         <DriftWall />
 
         {/* Master Futuristic HUD Deck (Matching Reference Design Exactly) */}
-        <div id="home" className="pt-4 sm:pt-6 pb-6 relative z-10">
+        <div id="home" className="pt-3 sm:pt-6 pb-6 relative z-10">
           <CyberHUDDeck />
         </div>
 

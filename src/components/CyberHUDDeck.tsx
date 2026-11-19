@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { sound } from "@/utils/sound";
@@ -123,11 +123,26 @@ const SLIDE_PROJECT_DETAILS: Record<string, ProjectData> = {
   },
 };
 
+const HERO_ROLES = [
+  "Full Stack Developer | AI Engineer | Creative Technologist",
+  "Autonomous Multi-Agent Systems Architect",
+  "3D WebGL & Real-Time Graphics Specialist",
+  "Production Cloud & Deep Learning Engineer",
+];
+
 export function CyberHUDDeck() {
   const [activeTab, setActiveTab] = useState("home");
   const [resumeOpen, setResumeOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
   const [heroMouse, setHeroMouse] = useState({ x: 0, y: 0 });
+  const [roleIndex, setRoleIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % HERO_ROLES.length);
+    }, 3400);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -354,22 +369,27 @@ export function CyberHUDDeck() {
                     </span>
                   </h2>
 
-                  {/* Typing Subtitle */}
-                  <div className="flex items-center gap-1.5 text-base sm:text-xl font-bold text-gray-100">
-                    <span>Full Stack Developer &amp; AI Enthusiast</span>
-                    <span className="w-2 h-5 bg-cyan-400 animate-pulse" />
+                  {/* Dynamic Role / Title Animation */}
+                  <div className="flex items-center gap-2 text-sm sm:text-base md:text-lg font-bold text-gray-100 min-h-[28px]">
+                    <span className="text-cyan-400 font-mono text-xs uppercase tracking-widest bg-cyan-950/60 border border-cyan-500/30 px-2 py-0.5 rounded">
+                      ROLE
+                    </span>
+                    <span className="text-purple-300 transition-all duration-300">
+                      {HERO_ROLES[roleIndex]}
+                    </span>
+                    <span className="w-2 h-4 bg-cyan-400 animate-pulse shrink-0" />
                   </div>
 
                   {/* Tagline Description */}
-                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal max-w-md">
-                    Building next-gen digital experiences with AI, automation and cutting-edge technologies.
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal max-w-lg">
+                    Architecting intelligent systems, autonomous multi-agent workflows, and immersive 3D web experiences with cutting-edge engineering precision.
                   </p>
 
-                  {/* Action CTA Buttons (Matching Reference Design) */}
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
+                  {/* Action CTA Buttons (Explore My Work, Download Resume, Contact Me) */}
+                  <div className="flex flex-wrap items-center gap-3 pt-2">
                     <button
                       onClick={() => handleNav("projects")}
-                      className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 via-indigo-600 to-purple-600 text-white font-bold text-xs sm:text-sm shadow-[0_0_30px_rgba(0,240,255,0.7)] border border-cyan-200 hover:shadow-[0_0_40px_rgba(139,92,246,0.9)] transition-all cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 via-indigo-600 to-purple-600 text-white font-bold text-xs sm:text-sm shadow-[0_0_30px_rgba(0,240,255,0.7)] border border-cyan-200 hover:shadow-[0_0_40px_rgba(139,92,246,0.9)] transition-all cursor-pointer"
                     >
                       <span>Explore My Work</span>
                       <ArrowRight className="w-4 h-4" />
@@ -377,10 +397,18 @@ export function CyberHUDDeck() {
 
                     <button
                       onClick={() => setResumeOpen(true)}
-                      className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white/[0.04] border border-white/20 hover:border-cyan-400 text-xs sm:text-sm font-medium text-gray-200 backdrop-blur-md transition-all hover:bg-white/[0.08] cursor-pointer"
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/20 hover:border-cyan-400 text-xs sm:text-sm font-medium text-gray-200 backdrop-blur-md transition-all hover:bg-white/[0.08] cursor-pointer"
                     >
                       <span>Download Resume</span>
                       <Download className="w-4 h-4 text-cyan-400" />
+                    </button>
+
+                    <button
+                      onClick={() => handleNav("contact")}
+                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-500/10 border border-purple-500/30 hover:border-purple-400 text-xs sm:text-sm font-medium text-purple-300 backdrop-blur-md transition-all hover:bg-purple-500/20 cursor-pointer"
+                    >
+                      <span>Contact Me</span>
+                      <Mail className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
