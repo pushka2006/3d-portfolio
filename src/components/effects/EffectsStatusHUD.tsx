@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { sound } from "@/utils/sound";
-import { Zap, Activity, ChevronUp, ChevronDown, CheckCircle2 } from "lucide-react";
+import { Zap, Activity, ChevronUp, ChevronDown } from "lucide-react";
 
 interface EffectStatus {
   id: number;
